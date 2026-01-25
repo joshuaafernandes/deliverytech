@@ -3,6 +3,7 @@ package com.deliverytech.delivery_api.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.deliverytech.delivery_api.model.Cliente;
 import com.deliverytech.delivery_api.service.ClienteService;
-
 
 
 @RestController
@@ -45,7 +45,7 @@ public class ClienteController {
         return service.atualizar(id, dados);
     }
     
-    @PutMapping("/desativar/{id}")
+    @DeleteMapping("/desativar/{id}")
     public ResponseEntity<Void> desativar(@PathVariable Long id){
         service.desativar(id);
         return ResponseEntity.noContent().build();

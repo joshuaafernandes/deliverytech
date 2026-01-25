@@ -1,0 +1,532 @@
+{
+  "info": {
+    "_postman_id": "b0a94fef-1b77-492a-8aab-3bc891c018f1",
+    "name": "deliverytech",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51808737"
+  },
+  "item": [
+    {
+      "name": "restaurantes listar todos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/restaurantes/listar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "restaurantes",
+            "listar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "restaurantes buscar por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/restaurantes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "restaurantes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "restaurantes buscar por categoria",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/restaurantes/categoria/Japonesa",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "restaurantes",
+            "categoria",
+            "Japonesa"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cadastrar restaurante",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Pizzaria Bella\",\r\n    \"categoria\": \"Pizzaria\",\r\n    \"endereco\": \"Rua das Flores, 123\",\r\n    \"telefone\": \"(11) 99999-9999\",\r\n    \"avaliacao\": 4.5,\r\n    \"taxaEntrega\": 5.00\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/restaurantes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "restaurantes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "desativar restaurante",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/restaurantes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "restaurantes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cadastrar cliente",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Fernanda Almeida\",\r\n    \"email\": \"fernanda.almeida@email.com\",\r\n    \"telefone\": \"(11) 98765-1234\",\r\n    \"endereco\": \"Av. das Nações, 500 - São Paulo, SP\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/clientes",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "clientes listar todos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/clientes/listar",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clientes",
+            "listar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "clientes buscar por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/clientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clientes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "atualizar clientes",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Lucas Mendes\",\r\n    \"email\": \"lucas.mendes@email.com\",\r\n    \"telefone\": \"(11) 91234-5678\",\r\n    \"endereco\": \"Rua das Acácias, 200 - São Paulo, SP\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/clientes/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clientes",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "desativar cliente",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Lucas Mendes\",\r\n    \"email\": \"lucas.mendes@email.com\",\r\n    \"telefone\": \"(11) 91234-5678\",\r\n    \"endereco\": \"Rua das Acácias, 200 - São Paulo, SP\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/clientes/desativar/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "clientes",
+            "desativar",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "produtos buscar por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/produtos/2/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "produtos",
+            "2",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listar produtos de um restaurante",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/produtos/restaurante/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "produtos",
+            "restaurante",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cadastrar produto no restaurante",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nome\": \"Pizza Portuguesa\",\r\n    \"descricao\": \"Pizza com presunto, ovos, cebola, azeitonas e mussarela\",\r\n    \"categoria\": \"Pizza\",\r\n    \"preco\": 44.90,\r\n    \"disponivel\": true\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/produtos/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "produtos",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listar pedidos de um cliente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/pedidos/cliente/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "cliente",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cadastrar novo pedido",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/pedidos?clienteId=1&restauranteId=1\t",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos"
+          ],
+          "query": [
+            {
+              "key": "clienteId",
+              "value": "1"
+            },
+            {
+              "key": "restauranteId",
+              "value": "1\t"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "atualizar status do pedido",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/pedidos/4/status?status=CONFIRMADO",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "pedidos",
+            "4",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "CONFIRMADO"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "itens pedidos listar todos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "buscar item por id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido/5",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido",
+            "5"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listar itens de um pedido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido/pedido/3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido",
+            "pedido",
+            "3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listar itens por produto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido/produto/7",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido",
+            "produto",
+            "7"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "adicionar item ao pedido",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido?pedidoId=1&produtoId=1&quantidade=2\t",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido"
+          ],
+          "query": [
+            {
+              "key": "pedidoId",
+              "value": "1"
+            },
+            {
+              "key": "produtoId",
+              "value": "1"
+            },
+            {
+              "key": "quantidade",
+              "value": "2\t"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "remover item do pedido",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/itens-pedido/4",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "itens-pedido",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
