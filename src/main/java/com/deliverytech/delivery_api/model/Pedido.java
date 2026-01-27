@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,43 +28,47 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="pedidos")
+@Table(name = "pedidos")
 public class Pedido {
-    
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="data_pedido")
+    @Column(name = "data_pedido")
     private LocalDateTime dataPedido;
 
-    @Column(name="endereco_entrega")
+    @Column(name = "endereco_entrega")
     private String enderecoEntrega;
 
-    @Column(name="numero_pedido")
+    @Column(name = "numero_pedido")
     private String numeroPedido;
 
-    @Column(name="taxa_entrega")
+    @Column(name = "taxa_entrega")
     private BigDecimal taxaEntrega;
 
-    @Column(name="valor_total")
+    @Column(name = "valor_total")
     private BigDecimal valorTotal;
 
     @Enumerated(EnumType.STRING)
     private StatusPedidos status;
 
     @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="cliente_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @JsonIgnore
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="restaurante_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
     @JsonIgnore
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itens = new ArrayList<>();
 
+    @PrePersist
+    public void prePersist(){
+        this.dataPedido = LocalDateTime.now();
+    }
 }
