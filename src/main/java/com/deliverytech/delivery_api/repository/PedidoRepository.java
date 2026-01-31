@@ -16,7 +16,11 @@ import com.deliverytech.delivery_api.model.Pedido;
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<Pedido> findByClienteId(Long clienteId);
 
+    List<Pedido> findByRestauranteId(Long restauranteId);
+
     List<Pedido> findByStatus(StatusPedidos status);
+
+    List<Pedido> findTop10ByOrderByDataPedidoDesc();
 
     @Query("""
                     SELECT p FROM Pedido p
@@ -48,4 +52,6 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
         """, nativeQuery = true)
     List<Object[]> rankingClientes();
-}
+}   
+
+
