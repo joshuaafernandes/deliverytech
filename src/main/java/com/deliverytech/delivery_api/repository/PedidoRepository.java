@@ -1,5 +1,6 @@
 package com.deliverytech.delivery_api.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,14 +45,16 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
 
     @Query(value = """
-            SELECT c.nome AS cliente, COUNT(p.id) AS total_pedidos
-            FROM pedidos p
-            JOIN clientes c ON p.cliente_id = c.id
-            GROUP BY c.nome
-            ORDER BY total_pedidos DESC
+                SELECT c.nome AS cliente, COUNT(p.id) AS total_pedidos
+                FROM pedidos p
+                JOIN clientes c ON p.cliente_id = c.id
+                GROUP BY c.nome
+                ORDER BY total_pedidos DESC
 
-        """, nativeQuery = true)
+            """, nativeQuery = true)
     List<Object[]> rankingClientes();
-}   
 
+    @Query("SELECT p FROM Pedido p WHERE p.valorTotal > :valor")
+    List<Pedido> pedidosAcima(@Param("valor") BigDecimal valor);
 
+}

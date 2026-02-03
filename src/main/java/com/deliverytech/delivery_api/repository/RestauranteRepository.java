@@ -24,4 +24,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 
         List<Restaurante> findTop5ByOrderByNomeAsc();
 
+        boolean existsByNome(String nome);
+
 }
