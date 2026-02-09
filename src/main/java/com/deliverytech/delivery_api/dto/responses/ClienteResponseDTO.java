@@ -1,6 +1,6 @@
 package com.deliverytech.delivery_api.dto.responses;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +18,6 @@ public class ClienteResponseDTO {
 
     private boolean ativo;
     
-    private LocalDate dataCadastro;
+    private LocalDateTime dataCadastro;
     
 }

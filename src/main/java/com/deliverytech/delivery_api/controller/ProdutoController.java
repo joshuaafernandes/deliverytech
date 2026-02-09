@@ -35,10 +35,10 @@ public class ProdutoController {
     }
 
     /*
-     * @GetMapping("{id}/")
-     * public Produto buscarPorId(@PathVariable Long id){
-     * return produtoService.buscarPorId(id);
-     * }
+      @GetMapping("{id}/")
+      public Produto buscarPorId(@PathVariable Long id){
+      return produtoService.buscarPorId(id);
+      }
      */
 
     @GetMapping("/restaurante/{restauranteId}")

@@ -14,12 +14,12 @@ public class ClienteDTO {
     @NotBlank(message = "Nome é obrigatório.")
     private String nome;
 
-    @Email(message = "Email inválido.")
-    @NotBlank(message = "Email é obrigatório.")
+    @Email(message = "E-mail inválido.")
+    @NotBlank(message = "E-mail é obrigatório.")
     private String email;   
 
     @NotBlank(message = "Telefone é obrigatório.")
-    @Pattern(regexp = "\\(?\\d{2}\\)?[\\s-]?\\d{4,5}-?\\d{4}", message = "Telefone inválido. Formato esperado: (XX) XXXXX-XXXX")
+    @Pattern(regexp = "\\(?\\d{2}\\)?[\\s-]?\\d{4,5}-?\\d{4}", message = "Telefone inválido. Formato esperado: (XX) XXXXX-XXXX ou XX XXXX-XXXX ou similar")
     private String telefone;
 
     @Size(min = 5, message = "Endereço deve ter no mínimo 5 caracteres.")

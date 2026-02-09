@@ -41,9 +41,6 @@ public class Pedido {
     @Column(name = "endereco_entrega")
     private String enderecoEntrega;
 
-    @Column(name = "numero_pedido")
-    private String numeroPedido;
-
     @Column(name = "taxa_entrega")
     private BigDecimal taxaEntrega;
 

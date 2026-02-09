@@ -1,6 +1,5 @@
 package com.deliverytech.delivery_api.repository;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,46 +14,50 @@ import com.deliverytech.delivery_api.model.Pedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-    List<Pedido> findByClienteId(Long clienteId);
 
-    List<Pedido> findByRestauranteId(Long restauranteId);
+
+    @Query("""
+        SELECT DISTINCT p     
+        FROM Pedido p
+        JOIN FETCH p.cliente
+        JOIN FETCH p.restaurante
+        LEFT JOIN FETCH p.itens i 
+        LEFT JOIN FETCH i.produto
+        WHERE p.cliente.id = :clienteId
+    """)
+    List<Pedido> buscarItensPorClientes(@Param("clienteId") Long clienteId);
 
     List<Pedido> findByStatus(StatusPedidos status);
 
-    List<Pedido> findTop10ByOrderByDataPedidoDesc();
-
     @Query("""
-                    SELECT p FROM Pedido p
-                    WHERE p.dataPedido  BETWEEN :inicio AND :fim
-            """)
+            SELECT p FROM Pedido p
+            WHERE p.dataPedido  BETWEEN :inicio AND :fim
+    """)
     List<Pedido> findByDateTime(
-            @Param("inicio") LocalDateTime inicio,
-            @Param("fim") LocalDateTime fim);
+        @Param("inicio") LocalDateTime inicio,
+        @Param("fim") LocalDateTime fim
+    );
 
-    @Query("""
-                SELECT new com.deliverytech.delivery_api.dto.TotalVendasPorRestauranteDTO(
+
+        @Query("""
+            select new com.deliverytech.delivery_api.dto.TotalVendasPorRestauranteDTO(
                     r.nome,
-                    COALESCE(SUM(ip.subtotal), 0)
+                    coalesce(sum(ip.subtotal), 0)
                 )
-                FROM Pedido p
-                JOIN p.restaurante r
-                JOIN p.itens ip
-                GROUP BY r.nome
+                from Pedido p
+                join p.restaurante r
+                join p.itens ip
+                group by r.nome
             """)
+            List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
 
-    List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
-
-    @Query(value = """
-                SELECT c.nome AS cliente, COUNT(p.id) AS total_pedidos
-                FROM pedidos p
-                JOIN clientes c ON p.cliente_id = c.id
-                GROUP BY c.nome
-                ORDER BY total_pedidos DESC
-
-            """, nativeQuery = true)
-    List<Object[]> rankingClientes();
-
-    @Query("SELECT p FROM Pedido p WHERE p.valorTotal > :valor")
-    List<Pedido> pedidosAcima(@Param("valor") BigDecimal valor);
-
+            @Query(value="""
+                        SELECT c.nome AS cliente, COUNT(p.id) AS total_pedidos
+                        FROM pedidos p 
+                        JOIN clientes c ON c.id = p.cliente_id
+                        GROUP BY c.nome
+                        ORDER BY total_pedidos DESC
+                """, nativeQuery = true )
+            List<Object[]> rankingClientes();
+    
 }

@@ -40,12 +40,16 @@ public class RestauranteService {
 
     public List<RestauranteResponseDTO> listarAtivos(){
         return repository.findByAtivoTrue()
-        .stream().map(r -> mapper.map(r, RestauranteResponseDTO.class)).toList();
+        .stream()
+        .map(r -> mapper.map(r, RestauranteResponseDTO.class))
+        .toList();
     }
 
     public List<RestauranteResponseDTO> buscarPorCategoria(String categoria){
         return repository.findByCategoriaAndAtivoTrue(categoria)
-        .stream().map(r -> mapper.map(r, RestauranteResponseDTO.class)).toList();
+        .stream()
+        .map(r -> mapper.map(r, RestauranteResponseDTO.class))
+        .toList();
     }
 
     public RestauranteResponseDTO buscarPorId(Long id){

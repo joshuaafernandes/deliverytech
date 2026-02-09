@@ -35,8 +35,8 @@ public class ClienteService {
         Cliente cliente = mapper.map(dto, Cliente.class);
         cliente.setAtivo(true);
         cliente.setDataCadastro(LocalDateTime.now());
-
         Cliente salvo = repository.save(cliente);
+
         return mapper.map(salvo, ClienteResponseDTO.class);
     }
 
