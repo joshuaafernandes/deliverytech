@@ -1,21 +1,28 @@
 package com.deliverytech.delivery_api.service;
 
-import java.util.List;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.deliverytech.delivery_api.model.ItemPedido;
-import com.deliverytech.delivery_api.repository.ItemPedidoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.deliverytech.delivery_api.dto.responses.ItemPedidoResponseDTO;
+import com.deliverytech.delivery_api.repository.ItemPedidoRepository;
 
 @Service
 public class ItemPedidoService {
-    private final ItemPedidoRepository itemPedidoRepository;
+    private final ItemPedidoRepository repository;
+    private final ModelMapper mapper;
 
-    public ItemPedidoService(ItemPedidoRepository itemPedidoRepository){
-        this.itemPedidoRepository = itemPedidoRepository;
+    public ItemPedidoService(ItemPedidoRepository repository, ModelMapper mapper){
+        this.repository = repository;
+        this.mapper = mapper;
     
     }
 
-    public List<ItemPedido> listarPorPedido(Long pedidoId){
-        return itemPedidoRepository.findByPedidoId(pedidoId);
+    @Transactional(readOnly = true)
+    public Page<ItemPedidoResponseDTO> listarPorPedido(Long pedidoId, Pageable pageable){
+        return repository.findByPedidoId(pedidoId, pageable)
+        .map(item -> mapper.map(item, ItemPedidoResponseDTO.class));
     }
 }

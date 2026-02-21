@@ -3,6 +3,8 @@ package com.deliverytech.delivery_api.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,31 +17,34 @@ import com.deliverytech.delivery_api.model.Pedido;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
+    List<Pedido> findByClienteId(Long clienteId);
 
-    @Query("""
-        SELECT DISTINCT p     
-        FROM Pedido p
-        JOIN FETCH p.cliente
-        JOIN FETCH p.restaurante
-        LEFT JOIN FETCH p.itens i 
-        LEFT JOIN FETCH i.produto
-        WHERE p.cliente.id = :clienteId
-    """)
-    List<Pedido> buscarItensPorClientes(@Param("clienteId") Long clienteId);
+    List<Pedido> findTop10ByOrderByDataPedidoDesc();
 
     List<Pedido> findByStatus(StatusPedidos status);
 
+
+    @Query(value = """
+                SELECT DISTINCT p
+                FROM Pedido p
+                JOIN FETCH p.cliente
+                JOIN FETCH p.restaurante
+                LEFT JOIN FETCH p.itens i
+                LEFT JOIN FETCH i.produto
+                WHERE p.cliente.id = :clienteId
+            """,
+         countQuery = "SELECT count(p) FROM Pedido p WHERE p.cliente.id = :clienteId")
+    Page<Pedido> buscarItensPorClientes(@Param("clienteId") Long clienteId, Pageable pageable);
+
     @Query("""
-            SELECT p FROM Pedido p
-            WHERE p.dataPedido  BETWEEN :inicio AND :fim
-    """)
+                    SELECT p FROM Pedido p
+                    WHERE p.dataPedido  BETWEEN :inicio AND :fim
+            """)
     List<Pedido> findByDateTime(
-        @Param("inicio") LocalDateTime inicio,
-        @Param("fim") LocalDateTime fim
-    );
+            @Param("inicio") LocalDateTime inicio,
+            @Param("fim") LocalDateTime fim);
 
-
-        @Query("""
+    @Query("""
             select new com.deliverytech.delivery_api.dto.TotalVendasPorRestauranteDTO(
                     r.nome,
                     coalesce(sum(ip.subtotal), 0)
@@ -49,9 +54,29 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
                 join p.itens ip
                 group by r.nome
             """)
-            List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
+    List<TotalVendasPorRestauranteDTO> totalVendasPorRestaurante();
 
-            @Query(value="""
+    @Query(value = """
+                    SELECT pr.nome AS produto, SUM(ip.quantidade) AS total_vendido
+                    FROM item_pedido ip
+                    JOIN produtos pr ON pr.id = ip.produto_id
+                    GROUP BY pr.nome
+                    ORDER BY total_vendido DESC
+            """, nativeQuery = true)
+    List<Object[]> produtosMaisVendidos();
+
+    @Query(value = """
+                    SELECT r.categoria AS categoria,
+                           COALESCE(SUM(ip.subtotal), 0) AS faturamento
+                    FROM pedidos p
+                    JOIN restaurantes r ON r.id = p.restaurante_id
+                    LEFT JOIN item_pedido ip ON ip.pedido_id = p.id
+                    GROUP BY r.categoria
+                    ORDER BY faturamento DESC
+            """, nativeQuery = true)
+    List<Object[]> faturamentoPorCategoria();
+
+        @Query(value="""
                         SELECT c.nome AS cliente, COUNT(p.id) AS total_pedidos
                         FROM pedidos p 
                         JOIN clientes c ON c.id = p.cliente_id
@@ -59,5 +84,5 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
                         ORDER BY total_pedidos DESC
                 """, nativeQuery = true )
             List<Object[]> rankingClientes();
-    
+
 }

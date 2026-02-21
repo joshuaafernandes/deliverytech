@@ -2,26 +2,36 @@ package com.deliverytech.delivery_api.dto.requests;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Schema(description = "Dados para criação de um novo pedido.")
 public class PedidoDTO {
-    @NotBlank
+    
+    @Schema(description = "Endereço completo para entrega", example ="Rua das Flores, 123, Bairro Centro")
+    @NotBlank(message = "Endereço de entrega é obrigatório")
     private String enderecoEntrega;
 
-    @NotNull
+    @Schema(description = "ID cliente que está realizando o pedido.", example = "2")
+    @NotNull(message = "ID do cliente é obrigatório")
     private Long clienteId;
 
-    @NotNull
+
+    @Schema(description = "ID do restaurante onde o pedido será feito.", example = "4")
+    @NotNull(message = "ID do restaurante é obrigatório")
     private Long restauranteId;
 
+    @Schema(description = "Lista de produtos e quantidades.")
     @Valid
-    @NotNull
+    @NotNull(message = "A lista de itens não pode ser nula")
+    @Size(min = 1, message = "O pedido deve ter pelo menos um item")
     private List<ItemPedidoDTO> itens;
     
 }

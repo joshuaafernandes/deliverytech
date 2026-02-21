@@ -13,12 +13,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PedidoResponseDTO {
+    private Long id;
+
     private LocalDateTime dataPedido;
+
     private BigDecimal valorTotal;
+
     private StatusPedidos status;
+
     private String enderecoEntrega;
+
     private List<ItemPedido> itens;
+
     private String nomeCliente;
+    
     private String nomeRestaurante;
     
 }

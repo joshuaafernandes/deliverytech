@@ -1,10 +1,12 @@
 package com.deliverytech.delivery_api.service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.deliverytech.delivery_api.dto.requests.RestauranteDTO;
 import com.deliverytech.delivery_api.dto.responses.RestauranteResponseDTO;
@@ -12,8 +14,6 @@ import com.deliverytech.delivery_api.exceptions.BusinessException;
 import com.deliverytech.delivery_api.exceptions.EntityNotFoundException;
 import com.deliverytech.delivery_api.model.Restaurante;
 import com.deliverytech.delivery_api.repository.RestauranteRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class RestauranteService {
@@ -38,18 +38,14 @@ public class RestauranteService {
        
     }
 
-    public List<RestauranteResponseDTO> listarAtivos(){
-        return repository.findByAtivoTrue()
-        .stream()
-        .map(r -> mapper.map(r, RestauranteResponseDTO.class))
-        .toList();
+    public Page<RestauranteResponseDTO> listarAtivos(Pageable pageable){
+        return repository.findByAtivoTrue(pageable)
+        .map(r -> mapper.map(r, RestauranteResponseDTO.class));
     }
 
-    public List<RestauranteResponseDTO> buscarPorCategoria(String categoria){
-        return repository.findByCategoriaAndAtivoTrue(categoria)
-        .stream()
-        .map(r -> mapper.map(r, RestauranteResponseDTO.class))
-        .toList();
+    public Page<RestauranteResponseDTO> buscarPorCategoria(String categoria, Pageable pageable){
+        return repository.findByCategoriaAndAtivoTrue(categoria, pageable)
+        .map(r -> mapper.map(r, RestauranteResponseDTO.class));
     }
 
     public RestauranteResponseDTO buscarPorId(Long id){

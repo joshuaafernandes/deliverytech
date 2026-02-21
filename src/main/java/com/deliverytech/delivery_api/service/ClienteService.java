@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.deliverytech.delivery_api.model.Cliente;
@@ -40,11 +42,9 @@ public class ClienteService {
         return mapper.map(salvo, ClienteResponseDTO.class);
     }
 
-    public List<ClienteResponseDTO> listarAtivos(){
-        return repository.findByAtivoTrue()
-            .stream()
-            .map(cliente -> mapper.map(cliente, ClienteResponseDTO.class))
-            .toList();
+    public Page<ClienteResponseDTO> listarAtivos(Pageable pageable){
+        return repository.findByAtivoTrue(pageable)
+            .map(cliente -> mapper.map(cliente, ClienteResponseDTO.class));
     }
 
     public List<ClienteResponseDTO> buscarPorNome(String nome){
@@ -60,14 +60,23 @@ public class ClienteService {
             return mapper.map(cliente, ClienteResponseDTO.class);
     }
 
-    /*public Cliente atualizar(Long id, Cliente dadosAtualizados){
-        Cliente cliente = buscarPorId(id);
+    /*public ClienteResponseDTO atualizar(Long id, ClienteDTO dto){
+        Cliente cliente = clienteRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException ("Cliente não encontrado."));
 
-        cliente.setNome(dadosAtualizados.getNome());
-        cliente.setEmail(dadosAtualizados.getEmail());
-        cliente.setTelefone(dadosAtualizados.getTelefone());
-        cliente.setEndereco(dadosAtualizados.getEndereco());
-        return repository.save(cliente);
+        if (!cliente.getEmail().equals(dto.getEmail)) && 
+        clienteRepository.existsByEmail(dto.getEmail()){
+        throw new BusinessException("E-mail já cadastrado" + dto.getEmail());
+        }
+
+        cliente.setNome(dto.getNome());
+        cliente.setEmail(dto.getEmail());
+        cliente.setTelefone(dto.getTelefone());
+        cliente.setEndereco(dto.getEndereco());
+        
+        Cliente atualizado = clienteRepository.save(cliente);
+
+        return mapper.map(atualizado, ClienteResponseDTO.class);
     } */
 
     @Transactional

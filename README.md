@@ -33,6 +33,6 @@ Sistema de delivery desenvolvido com Spring Boot e Java 21.
 - Profile: development
 
 ## 👨‍💻 Desenvolvedor
-Joshua Fernandes - Turma 2602 Arquitetura de Sistemas (Noite)
+Joshua Fernandes - Turma 2602 Arquitetura de Sistemas 
 Desenvolvido com JDK 21 e Spring Boot 3.2.x
 

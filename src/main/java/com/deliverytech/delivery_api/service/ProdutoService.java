@@ -1,9 +1,10 @@
 package com.deliverytech.delivery_api.service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.deliverytech.delivery_api.dto.requests.ProdutoDTO;
@@ -23,18 +24,18 @@ public class ProdutoService {
     private final RestauranteRepository restauranteRepository;
     private final ModelMapper mapper;
 
+    public ProdutoService(ProdutoRepository produtoRepository, RestauranteRepository restauranteRepository, ModelMapper mapper) {
+        this.produtoRepository = produtoRepository;
+        this.restauranteRepository = restauranteRepository;
+        this.mapper = mapper;
+    }
+
     private ProdutoResponseDTO returnResponseDTO(Produto p){
         ProdutoResponseDTO dto = mapper.map(p, ProdutoResponseDTO.class);
         if(p.getRestaurante() != null){
             dto.setRestauranteId(p.getRestaurante().getId());
         }
         return dto;
-    }
-
-    public ProdutoService(ProdutoRepository produtoRepository, RestauranteRepository restauranteRepository, ModelMapper mapper) {
-        this.produtoRepository = produtoRepository;
-        this.restauranteRepository = restauranteRepository;
-        this.mapper = mapper;
     }
     
     @Transactional
@@ -53,21 +54,15 @@ public class ProdutoService {
         Produto novoProduto = mapper.map(produto, Produto.class);
         novoProduto.setDisponivel(true);
         novoProduto.setRestaurante(restaurante);
-        Produto salvo = produtoRepository.save(novoProduto);
-
-        return returnResponseDTO(salvo);
+        return returnResponseDTO(produtoRepository.save(novoProduto));
     }
 
-    public List<ProdutoResponseDTO> listarPorRestaurante(Long restauranteId){
+    public Page<ProdutoResponseDTO> listarPorRestaurante(Long restauranteId, Pageable pageable){
         if (!restauranteRepository.existsById(restauranteId)){
             throw new EntityNotFoundException("Restaurante não localizado.");
         } 
-        return produtoRepository.findByRestauranteIdAndDisponivelTrue(restauranteId)
-            .stream()
-            .map(produto -> {
-               return returnResponseDTO(produto);
-            })
-            .toList();
+        return produtoRepository.findByRestauranteIdAndDisponivelTrue(restauranteId, pageable)
+            .map(this::returnResponseDTO);
     }
 
     public ProdutoResponseDTO buscarPorId(Long id){
@@ -80,8 +75,6 @@ public class ProdutoService {
        Produto produto = produtoRepository.findById(produtoId)
             .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
         produto.setDisponivel(!produto.isDisponivel());
-
-        Produto atualizado = produtoRepository.save(produto);
-        return returnResponseDTO(atualizado);
+        return returnResponseDTO(produtoRepository.save(produto));
     }
 }
