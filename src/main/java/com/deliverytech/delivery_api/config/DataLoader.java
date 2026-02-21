@@ -127,26 +127,36 @@ public class DataLoader {
             p2.setDisponivel(true);
 
             Produto p3 = new Produto();
-            p3.setNome("Hambúrguer Clássico");
-            p3.setDescricao("Hambúrguer com queijo, alface, tomate e molho especial");
-            p3.setCategoria("Hambúrguer");
-            p3.setPreco(new BigDecimal("25.50"));
-            p3.setRestaurante(r3);
+            p3.setNome("Pizza Quatro Queijos");
+            p3.setDescricao("Pizza com mussarela, gorgonzola, parmesão e catupiry");
+            p3.setCategoria("Pizza");
+            p3.setPreco(new BigDecimal("42.90"));
+            p3.setRestaurante(r1);
             p3.setDisponivel(true);
 
             Produto p4 = new Produto();
-            p4.setNome("Picanha na Brasa");
-            p4.setDescricao("Picanha suculenta grelhada na brasa, acompanhada de farofa e vinagrete");
-            p4.setCategoria("Churrasco");
-            p4.setPreco(new BigDecimal("89.90"));
-            p4.setRestaurante(r4);
+            p4.setNome("Hambúrguer Clássico");
+            p4.setDescricao("Hambúrguer com queijo, alface, tomate e molho especial");
+            p4.setCategoria("Hambúrguer");
+            p4.setPreco(new BigDecimal("25.50"));
+            p4.setRestaurante(r3);
             p4.setDisponivel(true);
+
+            Produto p5 = new Produto();
+            p5.setNome("Picanha na Brasa");
+            p5.setDescricao("Picanha suculenta grelhada na brasa, acompanhada de farofa e vinagrete");
+            p5.setCategoria("Churrasco");
+            p5.setPreco(new BigDecimal("89.90"));
+            p5.setRestaurante(r4);
+            p5.setDisponivel(true);
+
 
             List<Produto> produtos = new ArrayList<>();
             produtos.add(p1);
             produtos.add(p2);
             produtos.add(p3);
             produtos.add(p4);
+            produtos.add(p5);
             produtoRepository.saveAll(produtos);
 
             Pedido pedido1 = new Pedido();
@@ -183,37 +193,38 @@ public class DataLoader {
             pedidoRepository.save(pedido4);
 
             ItemPedido item1 = new ItemPedido();
-            item1.setPedido(pedido1);
-            item1.setProduto(p1);
-            item1.setQuantidade(1);
-            item1.setPrecoUnitario(p1.getPreco());
-            item1.setSubtotal(p1.getPreco().multiply(BigDecimal.valueOf(item1.getQuantidade())));
+            item1.setPedido(pedido2);
+            item1.setProduto(p2);
+            item1.setQuantidade(2);
+            item1.setPrecoUnitario(p2.getPreco());
+            item1.setSubtotal(p2.getPreco().multiply(BigDecimal.valueOf(item1.getQuantidade())));
 
             ItemPedido item2 = new ItemPedido();
-            item2.setPedido(pedido2);
-            item2.setProduto(p2);
+            item2.setPedido(pedido1);
+            item2.setProduto(p1);
             item2.setQuantidade(1);
-            item2.setPrecoUnitario(p2.getPreco());
-            item2.setSubtotal(p2.getPreco().multiply(BigDecimal.valueOf(item2.getQuantidade())));
+            item2.setPrecoUnitario(p1.getPreco());
+            item2.setSubtotal(p1.getPreco().multiply(BigDecimal.valueOf(item2.getQuantidade())));
 
             ItemPedido item3 = new ItemPedido();
-            item3.setPedido(pedido3);
-            item3.setProduto(p3);
-            item3.setQuantidade(2);
-            item3.setPrecoUnitario(p3.getPreco());
-            item3.setSubtotal(p3.getPreco().multiply(BigDecimal.valueOf(item3.getQuantidade())));
-
-            ItemPedido item4 = new ItemPedido();
-            item4.setPedido(pedido4);
-            item4.setProduto(p4);
-            item4.setQuantidade(1);
-            item4.setPrecoUnitario(p4.getPreco());
-            item4.setSubtotal(p4.getPreco().multiply(BigDecimal.valueOf(item4.getQuantidade())));
+            item3.setPedido(pedido2);
+            item3.setProduto(p2);
+            item3.setQuantidade(1);
+            item3.setPrecoUnitario(p2.getPreco());
+            item3.setSubtotal(p2.getPreco().multiply(BigDecimal.valueOf(item3.getQuantidade())));
 
             itemPedidoRepository.save(item1);
             itemPedidoRepository.save(item2);
             itemPedidoRepository.save(item3);
-            itemPedidoRepository.save(item4);
+            
+            BigDecimal totalPedido1 = item2.getSubtotal().add(item3.getSubtotal());
+            pedido1.setValorTotal(totalPedido1);
+
+            BigDecimal totalPedido2 = item1.getSubtotal();
+            pedido2.setValorTotal(totalPedido2);
+
+            pedidoRepository.save(pedido1);
+            pedidoRepository.save(pedido2);
 
             System.out.println("Dados carregados com sucesso!");
 
