@@ -42,7 +42,7 @@ public class ProdutoController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Restaurante não encontrado.")
     })
     @PostMapping("/restaurante/{restauranteId}")
-    public ResponseEntity<ProdutoResponseDTO> cadastrar(@PathVariable Long restauranteId, @RequestBody @Valid ProdutoDTO produto){
+    public ResponseEntity<ApiResponse<ProdutoResponseDTO>> cadastrar(@PathVariable Long restauranteId, @RequestBody @Valid ProdutoDTO produto) {
         ProdutoResponseDTO resposta = produtoService.cadastrar(restauranteId, produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>(resposta));
     }
